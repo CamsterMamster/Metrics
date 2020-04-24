@@ -14,6 +14,7 @@ NULL
 #' 
 #' If a model is unbiased \code{bias(actual, predicted)} should be close to zero.
 #' Bias is calculated by taking the average of (\code{actual} - \code{predicted}).
+#' Having removed any Nas in either actual or predicted
 #' 
 #' @inheritParams params_regression
 #' @export
@@ -23,7 +24,7 @@ NULL
 #' predicted <- c(0.9, 1.8, 2.5, 4.5, 5.0, 6.2)
 #' bias(actual, predicted)
 bias <- function(actual, predicted) {
-    return(mean(actual - predicted))
+    return(mean(actual - predicted, na.rm = TRUE))
 }
 
 #' Percent Bias
@@ -35,8 +36,10 @@ bias <- function(actual, predicted) {
 #' to zero. Percent Bias is calculated by taking the average of
 #' (\code{actual} - \code{predicted}) / \code{abs(actual)} across all observations.
 #' 
-#' \code{percent_bias} will give \code{-Inf}, \code{Inf}, or \code{NaN}, if any
+#' \code{percent_bias} will give \code{-Inf}, \code{Inf}, if any
 #' elements of \code{actual} are \code{0}.
+#' 
+#' NAs will be removed
 #' 
 #' @inheritParams params_regression
 #' @export
@@ -46,7 +49,7 @@ bias <- function(actual, predicted) {
 #' predicted <- c(0.9, 1.8, 2.5, 4.5, 5.0, 6.2)
 #' percent_bias(actual, predicted)
 percent_bias <- function(actual, predicted) {
-    return(mean((actual - predicted) / abs(actual)))
+    return(mean((actual - predicted) / abs(actual), na.rm = TRUE))
 }
 
 #' Squared Error
